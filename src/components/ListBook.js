@@ -1,10 +1,13 @@
+import { PropTypes } from "prop-types";
+
 const ListBooks = ({ books, updateBook }) => {
-    const handleChangeShelf = (id, e) => {
-        updateBook(id, e.target.value);
+    const handleChangeShelf = (book, e) => {
+        updateBook(book, e.target.value);
     }
+
     return (
         <ol className="books-grid">
-            {books.map((book) => (
+            {books?.map((book) => (
                 <li key={book.id}>
                     <div className="book">
                         <div className="book-top">
@@ -14,7 +17,7 @@ const ListBooks = ({ books, updateBook }) => {
                                     width: 128,
                                     height: 193,
                                     backgroundImage:
-                                        'url(' + book.imageLinks.thumbnail + ')'
+                                        `url(${book?.imageLinks?.thumbnail || ''})`
                                 }}
                             ></div>
                             <div className="book-shelf-changer">
@@ -22,7 +25,7 @@ const ListBooks = ({ books, updateBook }) => {
                                     id={book.id}
                                     value={book.shelf}
                                     onChange={(e) => {
-                                        handleChangeShelf(book.id, e)
+                                        handleChangeShelf(book, e)
                                     }}>
                                     <option value="none" disabled>
                                         Move to...
@@ -37,12 +40,17 @@ const ListBooks = ({ books, updateBook }) => {
                             </div>
                         </div>
                         <div className="book-title">{book.title}</div>
-                        <div className="book-authors">{book.authors.join(' & ')}</div>
+                        <div className="book-authors">{book.authors ? book.authors.join(' & ') : " "}</div>
                     </div>
                 </li>
             ))}
         </ol>
     );
+}
+
+ListBooks.propTypes = {
+    books: PropTypes.array.isRequired,
+    updateBook: PropTypes.func.isRequired
 }
 
 export default ListBooks;

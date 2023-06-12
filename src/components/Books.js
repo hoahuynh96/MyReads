@@ -1,18 +1,10 @@
+import { PropTypes } from "prop-types";
 import { Link } from "react-router-dom";
-import { update } from "../BooksAPI";
 import CurrentRead from "./ShelfBooks/CurrentRead";
 import Read from "./ShelfBooks/Read";
 import WantToRead from "./ShelfBooks/WantToRead";
 
-const Books = ({ books, getAll }) => {
-    const onUpdate = async (id, e) => {
-        const book = books.find((book) => book.id === id);
-        if (book) {
-            await update(book, e);
-            getAll();
-        }
-    }
-    
+const Books = ({ books, onUpdate }) => {
     return (
         <div className="list-books">
             <div className="list-books-title">
@@ -45,6 +37,11 @@ const Books = ({ books, getAll }) => {
             </div>
         </div>
     )
+}
+
+Books.propTypes = {
+    books: PropTypes.array.isRequired,
+    onUpdate: PropTypes.func.isRequired
 }
 
 export default Books;

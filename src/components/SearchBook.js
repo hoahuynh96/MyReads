@@ -1,30 +1,27 @@
+import { PropTypes } from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { update } from "../BooksAPI";
+import { search } from "../BooksAPI";
 import ListBooks from "./ListBook";
 
-const SearchBook = ({ books, getAll }) => {
+const SearchBook = ({ onUpdate }) => {
     const [filterList, setFilterList] = useState({
         query: '',
         list: []
     });
-    const filterBySearch = (e) => {
-        const results = books.filter((book) => {
-            if (e.target.value === '') return books;
-            return book.title.toLowerCase().includes(e.target.value.toLowerCase());
-        });
-        setFilterList({
+    
+    const filterBySearch = async (e) => {
+        setFilterList((prevState) => ({
+            ...prevState,
             query: e.target.value,
-            list: results
+        }));
+        await search(e.target.value).then(res => {
+            setFilterList((prevState) => ({
+                ...prevState,
+                list: Array.isArray(res) ? res : res?.items || []
+            }));
         });
     };
-    const onUpdate = async (id, e) => {
-        const book = books.find((book) => book.id === id);
-        if (book) {
-            await update(book, e);
-            getAll();
-        }
-    }
 
     return (
         <div className="search-books">
@@ -40,12 +37,14 @@ const SearchBook = ({ books, getAll }) => {
                 </div>
             </div>
             <div className="search-books-results">
-                {(filterList.query === ''
-                    ? <ListBooks books={books} updateBook={onUpdate} />
-                    : <ListBooks books={filterList.list} updateBook={onUpdate} />)}
+                {(<ListBooks books={filterList.list} updateBook={onUpdate} />)}
             </div>
         </div>
     )
+}
+
+SearchBook.propTypes = {
+    onUpdate: PropTypes.func.isRequired
 }
 
 export default SearchBook;

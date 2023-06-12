@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { getAll } from "./BooksAPI";
+import { getAll, update } from "./BooksAPI";
 import SearchBook from "./components/SearchBook";
 import Books from "./components/Books";
 
@@ -18,11 +18,19 @@ function App() {
     })
   }
 
+  const updateShelfBook = async (book, shelf) => {
+    book.shelf = shelf;
+    await update(book, shelf).then(() => {
+      setBooks([...books.filter((b) => b.id !== book.id), book]);
+    });
+  }
+
+
   return (
     <div className="app">
       <Routes>
-        <Route path="" element={<Books books={books} getAll={getBooks} />} exact />
-        <Route path="/search" element={<SearchBook books={books} getAll={getBooks} />} exact />
+        <Route path="" element={<Books books={books} onUpdate={updateShelfBook} />} exact />
+        <Route path="/search" element={<SearchBook books={books} onUpdate={updateShelfBook} />} exact />
       </Routes>
     </div>
   );
