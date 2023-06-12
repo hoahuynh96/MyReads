@@ -7,7 +7,7 @@ const WantToRead = ({ books, updateBook }) => {
     }
 
     return (
-        <BookDetail books={books} handleChangeShelf={updateBookDetail} />
+        <BookDetail books={books.filter((b) => b.shelf === "wantToRead")} handleChangeShelf={updateBookDetail} />
     );
 }
 

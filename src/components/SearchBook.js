@@ -18,7 +18,7 @@ const SearchBook = ({ onUpdate }) => {
         await search(e.target.value).then(res => {
             setFilterList((prevState) => ({
                 ...prevState,
-                list: Array.isArray(res) ? res : res?.items || []
+                list: Array.isArray(res) ? res : res?.items || []  // response not one format, please help check it.
             }));
         });
     };

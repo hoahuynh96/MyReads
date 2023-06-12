@@ -6,10 +6,8 @@ const CurrentRead = ({ books, updateBook }) => {
         updateBook(book, e.target.value);
     }
 
-    console.log(books);
-
     return (
-        <BookDetail books={books} handleChangeShelf={updateBookDetail} />
+        <BookDetail books={books.filter((b) => b.shelf === "currentlyReading")} handleChangeShelf={updateBookDetail} />
     );
 }
 

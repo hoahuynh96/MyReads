@@ -1,10 +1,10 @@
 import { PropTypes } from "prop-types";
 
 const BookDetail = ({ books, handleChangeShelf }) => {
-    
+
     return (
         <ol className="books-grid">
-            {books.filter(shelf => shelf.shelf === 'currentlyReading').map(book => {
+            {books.map(book => {
                 return (
                     <li key={book.id}>
                         <div className="book">
@@ -39,7 +39,7 @@ const BookDetail = ({ books, handleChangeShelf }) => {
                                 </div>
                             </div>
                             <div className="book-title">{book.title}</div>
-                            <div className="book-authors">{book.authors ? book.authors.join(' & ') : " "}</div>
+                            <div className="book-authors">{book?.authors?.join(' & ') || ""}</div>
                         </div>
                     </li>
                 )
