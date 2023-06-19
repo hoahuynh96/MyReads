@@ -4,21 +4,33 @@ import { Link } from "react-router-dom";
 import { search } from "../BooksAPI";
 import ListBooks from "./ListBook";
 
-const SearchBook = ({ onUpdate }) => {
+const SearchBook = ({ onUpdate, books }) => {
     const [filterList, setFilterList] = useState({
         query: '',
         list: []
     });
-    
+
     const filterBySearch = async (e) => {
         setFilterList((prevState) => ({
             ...prevState,
             query: e.target.value,
         }));
         await search(e.target.value).then(res => {
+            let listSearchedBooks = Array.isArray(res) ? res : res?.items || [];
+            listSearchedBooks = listSearchedBooks.map(searchedBook => {
+                const bookFound = books.find(b => b.id === searchedBook.id)
+                if (bookFound) return {
+                    ...searchedBook,
+                    shelf: bookFound.shelf
+                }
+                return {
+                    ...searchedBook,
+                    shelf: 'none'
+                }
+            })
             setFilterList((prevState) => ({
                 ...prevState,
-                list: Array.isArray(res) ? res : res?.items || []  // response not one format, please help check it.
+                list: listSearchedBooks
             }));
         });
     };

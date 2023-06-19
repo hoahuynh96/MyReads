@@ -2,12 +2,14 @@ import { PropTypes } from "prop-types";
 import BookDetail from "./BookDetail";
 
 const ListBooks = ({ books, updateBook }) => {
-    const updateBookDetail = (book, e) => {
-        updateBook(book, e.target.value);
-    }
-
     return (
-        <BookDetail books={books} handleChangeShelf={updateBookDetail} />
+        <ol className="books-grid">
+            {books?.length > 0 && books.map(book => (
+                <li key={book.id}>
+                    <BookDetail book={book} handleChangeShelf={updateBook} />
+                </li>
+            ))}
+        </ol>
     );
 }
 

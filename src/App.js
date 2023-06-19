@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { getAll, update } from "./BooksAPI";
-import SearchBook from "./components/SearchBook";
 import Books from "./components/Books";
+import SearchBook from "./components/SearchBook";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -24,7 +24,6 @@ function App() {
       setBooks([...books.filter((b) => b.id !== book.id), book]);
     });
   }
-
 
   return (
     <div className="app">
