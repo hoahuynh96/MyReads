@@ -21,7 +21,7 @@ const BookDetail = ({ book, handleChangeShelf }) => {
                             handleChangeShelf(book, e.target.value);
                         }}
                     >
-                        <option value="none" disabled>
+                        <option disabled>
                             Move to...
                         </option>
                         <option value="currentlyReading">
